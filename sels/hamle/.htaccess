@@ -1,0 +1,13 @@
+########## Begin - Force HTTPS for certain pages
+# Force the page foobar.html to run in HTTPS mode, no matter what Joomla! says.
+# This is a sample redirection for foobar.html. Do note that you have to change
+# www.example.com to reflect your own domain. Remember to escape the dots using
+# \. in the left hand side of each rule. You need BOTH LINES PER URL for the rule
+# to work.
+RewriteCond %{SERVER_PORT} !^443$
+## Alternatively, comment the above line and uncomment the following line:
+# RewriteCond %{HTTPS} ^off$ [NC]
+RewriteRule ^foobar\.html$ https://www.bigghamle.com/basvuru [R=301,L]
+## NOTE: If you get an HTTP 500 error, please swap [R=301,L] with [R,L]
+# Add more rules below this line as required
+########## End - Force HTTPS for certain pages
