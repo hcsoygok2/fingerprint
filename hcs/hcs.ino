@@ -1,18 +1,4 @@
-/*************************************************** 
-  This is an example sketch for our optical Fingerprint sensor
 
-  Designed specifically to work with the Adafruit BMP085 Breakout 
-  ----> http://www.adafruit.com/products/751
-
-  These displays use TTL Serial to communicate, 2 pins are required to 
-  interface
-  Adafruit invests time and resources providing this open source code, 
-  please support Adafruit and open-source hardware by purchasing 
-  products from Adafruit!
-
-  Written by Limor Fried/Ladyada for Adafruit Industries.  
-  BSD license, all text above must be included in any redistribution
- ****************************************************/
 
 
 #include <Adafruit_Fingerprint.h>
@@ -20,23 +6,20 @@
 
 int getFingerprintIDez();
 
-// pin #2 is IN from sensor (GREEN wire)
-// pin #3 is OUT from arduino  (WHITE wire)
+
 SoftwareSerial mySerial(2, 3);
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
 
-// On Leonardo/Micro or others with hardware serial, use those! #0 is green wire, #1 is white
-//Adafruit_Fingerprint finger = Adafruit_Fingerprint(&Serial1);
+
 
 void setup()  
 {
-  while (!Serial);  // For Yun/Leo/Micro/Zero/...
+  while (!Serial);  
   pinMode(13, OUTPUT);
   Serial.begin(9600);
   Serial.println("Adafruit finger detect test");
 
-  // set the data rate for the sensor serial port
-  finger.begin(57600);
+ 
   
   if (finger.verifyPassword()) {
     Serial.println("Found fingerprint sensor!");
@@ -47,10 +30,10 @@ void setup()
   Serial.println("Waiting for valid finger...");
 }
 
-void loop()                     // run over and over again
+void loop()                     
 {
   getFingerprintIDez();
-  delay(50);            //don't ned to run this at full speed.
+  delay(50);            
 }
 
 uint8_t getFingerprintID() {
@@ -73,8 +56,7 @@ uint8_t getFingerprintID() {
       return p;
   }
 
-  // OK success!
-
+  
   p = finger.image2Tz();
   switch (p) {
     case FINGERPRINT_OK:
@@ -97,7 +79,7 @@ uint8_t getFingerprintID() {
       return p;
   }
   
-  // OK converted!
+  
   p = finger.fingerFastSearch();
   if (p == FINGERPRINT_OK) {
     Serial.println("Found a print match!");
@@ -112,16 +94,16 @@ uint8_t getFingerprintID() {
     return p;
   }   
   
-  // found a match!
-  digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(1000);              // wait for a second
-  digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
+  
+  digitalWrite(13, HIGH);   
+  delay(1000);             
+  digitalWrite(13, LOW);    
   delay(1000);   
   Serial.print("Found ID #"); Serial.print(finger.fingerID); 
   Serial.print(" with confidence of "); Serial.println(finger.confidence); 
 }
 
-// returns -1 if failed, otherwise returns ID #
+
 int getFingerprintIDez() {
   uint8_t p = finger.getImage();
   if (p != FINGERPRINT_OK)  return -1;
@@ -132,7 +114,7 @@ int getFingerprintIDez() {
   p = finger.fingerFastSearch();
   if (p != FINGERPRINT_OK)  return -1;
   
-  // found a match!
+ 
   Serial.print("Found ID #"); Serial.print(finger.fingerID); 
   Serial.print(" with confidence of "); Serial.println(finger.confidence);
   return finger.fingerID; 
